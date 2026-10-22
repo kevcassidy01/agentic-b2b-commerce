@@ -1,0 +1,19 @@
+.conversation-page main{position:relative;isolation:isolate}
+.conversation-page main::before{content:"";position:absolute;inset:12px 24px 110px;background:linear-gradient(110deg,#ffffff30,#ffffff08),url("conversation-backdrop.svg") center/cover;border-radius:20px;z-index:-1}
+.conversation-page .intro{background:#f6f4f1ed;border-radius:12px;padding:10px 18px}
+.conversation-page .conversation{background:rgba(255,255,255,.92);backdrop-filter:blur(10px);border-color:#ffffffaa;box-shadow:0 8px 24px #40102012}
+.conversation-page .conversation-header,.conversation-page #composer{background:#ffffff55}
+.conversation-page .home-recommendations{flex-shrink:0;margin-top:12px;background:var(--dxp-g-neutral);padding:8px 0 0}
+.recommendation-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:8px}
+.recommendation-heading h2{font:16px Georgia;margin:0}
+.recommendation-heading>span{font-size:9px;color:var(--muted)}
+.recommendation-items{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.home-product{display:flex;align-items:center;gap:10px;padding:10px;background:var(--dxp-g-root);border:1px solid var(--line);border-radius:8px;color:var(--dxp-g-root-contrast);text-decoration:none;min-width:0}
+.home-product .mini-can{flex-shrink:0}
+.home-product strong{font-size:11px;display:block}
+.home-product small{font-size:9px;color:var(--muted);display:block}
+.home-product>span{margin-left:auto;color:var(--dxp-g-brand)}
+.home-product:hover{border-color:var(--dxp-g-brand)}
+@media(max-width:1000px){.recommendation-heading>span{display:none}.home-product small{display:none}.home-product{padding:8px;gap:6px}.home-product>span{display:none}}
+@media(max-width:700px){.conversation-page main::before{inset:6px 10px 95px}.recommendation-heading h2{font-size:13px}.home-product strong{font-size:9px}.home-product .mini-can{width:18px;height:30px;font-size:6px}.recommendation-items{gap:5px}}
+@media(max-height:650px){.home-product{padding:5px}.home-product .mini-can{height:24px}.recommendation-heading{margin-bottom:4px}.conversation-page #composer{padding-top:8px;padding-bottom:8px}}
