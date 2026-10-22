@@ -8,7 +8,9 @@ if(document.querySelector('#product-grid')){
   const query=catalogParams.get('q')||'';
   document.querySelector('#category-title').textContent=query?'Find your next shelf essential.':category==='All Products'?'Stock smarter.':category;
   document.querySelector('#crumb-category').textContent=query?'Search results':category;
-  const base=catalogProducts.filter(p=>(category==='All Products'||p.category===category)&&`${p.name} ${p.brand} ${p.category} ${p.variants.map(v=>`${v.size} ${v.format} ${v.pack}`).join(' ')}`.toLowerCase().includes(query.toLowerCase()));
+  const searchResult=interpretSearch(query);
+  if(query){document.querySelector('#category-title').textContent=searchResult.title;document.querySelector('.agent-strip strong').textContent=searchResult.title;document.querySelector('.agent-strip p:not(.eyebrow)').textContent=searchResult.reason;document.querySelector('#product-search').value=query;}
+  const base=searchResult.products.filter(p=>category==='All Products'||p.category===category);
   const groups=[['brand','Brand',[...new Set(base.map(p=>p.brand))]],['sugar','Sugar preference',['Original','Zero sugar']],['format','Packaging',['Bottle','Can','Mini can']],['size','Size',[...new Set(base.flatMap(p=>p.variants.map(v=>v.size)))]],['stock','Availability',['In stock']],['price','Case price',['Under $20','$20 and above']]];
   const matches=(p,group,value)=>group==='stock'?p.variants.some(v=>v.stock>0):group==='price'?p.variants.some(v=>value==='Under $20'?v.price<20:v.price>=20):['format','size'].includes(group)?p.variants.some(v=>v[group]===value):p[group]===value;
   document.querySelector('#facet-options').innerHTML=groups.map(([key,title,values])=>`<fieldset><legend>${title}</legend>${values.map((v,i)=>`<label><input type="checkbox" name="${key}" value="${v}" id="facet-${key}-${i}"><span>${v}</span><small>${base.filter(p=>matches(p,key,v)).length}</small></label>`).join('')}</fieldset>`).join('');
