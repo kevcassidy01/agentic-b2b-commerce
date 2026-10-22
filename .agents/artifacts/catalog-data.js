@@ -18,6 +18,21 @@ catalogProducts.forEach((p,i)=>{
   p.variants=formats.map(([size,format,pack,price,stock],v)=>({sku:`${p.id}-${v}`,size,format,pack,price:price+(i%3),stock, recommended:v===1?12:v===0?8:v===2?4:0}));
 });
 const commerceMoney=n=>new Intl.NumberFormat('en-US',{style:'currency',currency:'USD'}).format(n);
+function interpretSearch(query){
+  const text=query.trim().toLowerCase();
+  const scenarios=[
+    [/festival|concert|street fair|block party|event|crowd/,'Festival-ready shelves','Plan for walk-up crowds: prioritize cold single-serve favorites, water for hydration, and zero-sugar choice. Start with a balanced mix; confirm attendance and cooler capacity with your agent.',['coke','zero','dasani','sprite','powerade']],
+    [/heat|hot weather|summer|hydration|heatwave/,'Ready for warmer days','Lead with water and sports hydration, then round out the cooler with familiar soft drinks. These are illustrative suggestions, not a weather forecast.',['dasani','smartwater','powerade','powerade-zero','zero']],
+    [/breakfast|morning|commut/,'Make the morning stop count','Offer grab-and-go juice, water and familiar refreshment for commuters.',['minute-maid','dasani','smartwater','coke']],
+    [/new store|opening|open a store|starter/,'Your opening-store essentials','Build a balanced starting mix, then negotiate your opening-stock quote with the assortment and pricing agents.',['coke','zero','sprite','fanta','dasani']],
+    [/zero sugar|sugar free|sugar-free|no sugar|healthy/,'More choice, less sugar','Explore zero-sugar soft drinks and hydration options. Check product details for nutritional information.',['zero','powerade-zero','dasani','smartwater']]
+  ];
+  const scenario=scenarios.find(([pattern])=>pattern.test(text));
+  if(scenario)return {title:scenario[1],reason:scenario[2],products:scenario[3].map(id=>catalogProducts.find(p=>p.id===id)),intent:true};
+  const terms=text.replace(/\bcoke\b/g,'coca cola').replace(/[^a-z0-9.\s]/g,' ').split(/\s+/).filter(t=>t&&!['show','me','find','some','please','want','need','buy','stock','up','on','the','a','i','for','my','bottles','products'].includes(t));
+  const found=terms.length?catalogProducts.filter(p=>{const words=`${p.name} ${p.brand} ${p.category} ${p.sugar} ${p.variants.map(v=>`${v.size} ${v.format}`).join(' ')}`.toLowerCase().replace(/[^a-z0-9.\s]/g,' ');return terms.every(t=>words.includes(t));}):catalogProducts;
+  return {title:text?'Your product matches':'What can we help you stock?',reason:text?'Matching sample products and pack formats. Try describing an occasion, such as a neighborhood festival or a heatwave.':'Describe your business need, or explore your locally inspired recommendations.',products:found,intent:false};
+}
 function productArt(p){return `<div class="catalog-art ${p.color}" aria-hidden="true"><div class="catalog-bottle"><span>${p.brand}</span><small>${p.sugar==='Zero sugar'?'ZERO SUGAR':'REFRESH YOUR DAY'}</small></div><div class="art-orbit"></div></div>`;}
 function findSku(sku){for(const p of catalogProducts){const v=p.variants.find(v=>v.sku===sku);if(v)return {p,v};}return null;}
 function readDemoCart(){try{const value=JSON.parse(localStorage.getItem('commerce-demo-cart')||'{}');return Object.fromEntries(Object.entries(value).filter(([sku,qty])=>{const item=findSku(sku);return item&&Number.isInteger(qty)&&qty>0&&qty<=Math.min(item.v.stock,999);}));}catch{return {};}}

@@ -1,4 +1,5 @@
 const storyPage=location.pathname.endsWith('storyline.html');
+const searchStyles=document.createElement('link');searchStyles.rel='stylesheet';searchStyles.href='search.css?v=6';document.head.append(searchStyles);
 const browsePage=/category|product/.test(location.pathname);
 const icon=name=>`<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">${{search:'<circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/>',account:'<circle cx="12" cy="8" r="4"/><path d="M4 22v-3a8 8 0 0 1 16 0v3"/>',cart:'<path d="M2 3h3l3 13h11l3-9H6"/><circle cx="9" cy="21" r="1"/><circle cx="19" cy="21" r="1"/>'}[name]}</svg>`;
 document.querySelector('#storefront-header').innerHTML=`<div class="shop-announcement">Your local business. Our iconic brands. One connected partnership. <span>Midtown Market / Atlanta, GA</span></div><div class="shop-header"><a class="brand" href="index.html">Coca-Cola<span>BUSINESS PARTNER</span></a><form id="catalog-search" role="search"><label class="sr-only" for="product-search">Search products</label><input id="product-search" type="search" placeholder="Search products, brands and pack sizes"><button aria-label="Search products">${icon('search')}</button></form><div class="shop-tools"><button data-panel="account" aria-label="My Account">${icon('account')}<span>My Account<small>Hi, Jordan</small></span></button><button data-panel="cart" aria-label="My Cart">${icon('cart')}<span>My Cart<small id="cart-count">Demo draft</small></span></button></div></div><nav class="shop-nav" aria-label="Storefront navigation"><a href="storyline.html" ${storyPage?'aria-current="page"':''}>Storyline</a><a href="index.html" ${!storyPage&&!browsePage?'aria-current="page"':''}>Agentic Commerce</a>${catalogCategories.map(category=>`<a href="category.html?category=${encodeURIComponent(category)}" ${location.pathname.endsWith('category.html')&&(new URLSearchParams(location.search).get('category')||'All Products')===category?'aria-current="page"':''}>${category.replace('&','&amp;')}</a>`).join('')}</nav>`;
@@ -8,6 +9,32 @@ const dialog=document.createElement('dialog');dialog.className='shop-dialog';dia
 dialog.querySelector('.dialog-close').addEventListener('click',()=>dialog.close());
 function openPanel(title,content){dialog.querySelector('#panel-title').textContent=title;dialog.querySelector('#panel-content').replaceChildren(content);dialog.showModal();}
 document.querySelector('#catalog-search').addEventListener('submit',e=>{e.preventDefault();location.href=`category.html?q=${encodeURIComponent(document.querySelector('#product-search').value.trim())}`;});
+const searchInput=document.querySelector('#product-search');
+searchInput.placeholder='Tell me how I can help...';
+searchInput.setAttribute('aria-label','Tell me how I can help with your assortment');
+searchInput.setAttribute('aria-controls','search-preview');
+searchInput.setAttribute('aria-expanded','false');
+searchInput.autocomplete='off';
+const searchPreview=document.createElement('section');searchPreview.id='search-preview';searchPreview.className='search-preview';searchPreview.hidden=true;searchPreview.setAttribute('aria-label','Search suggestions and product previews');document.querySelector('#catalog-search').append(searchPreview);
+function previewSearch(){
+  const result=interpretSearch(searchInput.value);searchPreview.replaceChildren();
+  const heading=document.createElement('strong');heading.textContent=result.title;searchPreview.append(heading);
+  const note=document.createElement('p');note.textContent=result.reason;searchPreview.append(note);
+  if(!searchInput.value.trim()){
+    const examples=document.createElement('div');examples.className='search-examples';
+    ['There is a festival in my neighborhood this weekend, what should I stock up on?','Help me stock up for a heatwave','Show me zero sugar drinks'].forEach(text=>{const button=document.createElement('button');button.type='button';button.textContent=text;button.addEventListener('click',()=>{searchInput.value=text;previewSearch();searchInput.focus();});examples.append(button);});searchPreview.append(examples);
+  }
+  const picks=document.createElement('div');picks.className='search-picks';
+  result.products.slice(0,3).forEach(p=>{const a=document.createElement('a');a.href=`product.html?id=${p.id}`;a.innerHTML=`<div class="search-mini ${p.color}" aria-hidden="true">${p.brand}</div><strong>${p.name}</strong><small>${p.signal}</small>`;picks.append(a);});searchPreview.append(picks);
+  if(!result.products.length){const empty=document.createElement('p');empty.textContent='No sample matches yet. Try Coke, water, festival or heatwave.';searchPreview.append(empty);}
+  const all=document.createElement('a');all.className='search-view-all';all.href=`category.html?q=${encodeURIComponent(searchInput.value.trim())}`;all.textContent=`View ${result.products.length} recommendations →`;searchPreview.append(all);
+  const disclaimer=document.createElement('small');disclaimer.textContent='Demo intent matching / No live AI or local event data';searchPreview.append(disclaimer);
+  searchPreview.hidden=false;searchInput.setAttribute('aria-expanded','true');
+}
+searchInput.addEventListener('focus',previewSearch);searchInput.addEventListener('input',previewSearch);
+searchInput.addEventListener('keydown',e=>{if(e.key==='Escape'){searchPreview.hidden=true;searchInput.setAttribute('aria-expanded','false');}if(e.key==='ArrowDown'){const first=searchPreview.querySelector('button,a');if(first){e.preventDefault();first.focus();}}});
+document.querySelector('#catalog-search').addEventListener('focusout',e=>{if(!e.currentTarget.contains(e.relatedTarget)){searchPreview.hidden=true;searchInput.setAttribute('aria-expanded','false');}});
+searchPreview.addEventListener('keydown',e=>{if(e.key==='Escape'){searchInput.focus();searchPreview.hidden=true;searchInput.setAttribute('aria-expanded','false');}});
 function updateCartCount(){document.querySelector('#cart-count').textContent=`${Object.values(readDemoCart()).reduce((n,q)=>n+q,0)} cases / draft`;}
 window.addEventListener('cart-updated',updateCartCount);updateCartCount();
 function cartContent(){
