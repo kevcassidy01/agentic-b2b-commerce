@@ -14,18 +14,12 @@ const headerStatus=document.createElement('a');headerStatus.className='header-wo
 document.querySelector('.shop-header').insertBefore(headerStatus,document.querySelector('.shop-tools'));
 const dockStyles=document.createElement('link');dockStyles.rel='stylesheet';dockStyles.href='commerce-dock.css?v=9';document.head.append(dockStyles);
 const visionStyles=document.createElement('link');visionStyles.rel='stylesheet';visionStyles.href='vision.css?v=11';document.head.append(visionStyles);
-if(!document.body.classList.contains('conversation-page')){
-  const agentStyles=document.createElement('link');agentStyles.rel='stylesheet';agentStyles.href='agent-panel.css?v=12';document.head.append(agentStyles);
-  const agentButton=document.createElement('button');agentButton.className='dock-agent-button';agentButton.textContent='Ask my agent';agentButton.setAttribute('aria-expanded','false');agentButton.setAttribute('aria-controls','site-agent-panel');
-  document.querySelector('#catalog-search').before(agentButton);
-  const panel=document.createElement('section');panel.id='site-agent-panel';panel.className='site-agent-panel';panel.hidden=true;panel.setAttribute('aria-label','Your commerce agent conversation');
-  const heading=document.createElement('div');heading.className='agent-panel-heading';heading.innerHTML='<div><strong>Your commerce agent</strong><small>Stay on this page. Keep the conversation moving.</small></div>';
-  const close=document.createElement('button');close.className='secondary';close.textContent='Close conversation';heading.append(close);
-  const frame=document.createElement('iframe');frame.title='Your commerce agent conversation';panel.append(heading,frame);document.body.append(panel);
-  function closeAgent(){panel.hidden=true;agentButton.setAttribute('aria-expanded','false');agentButton.focus();}
-  agentButton.addEventListener('click',()=>{if(!panel.hidden){closeAgent();return;}if(!frame.getAttribute('src')){const url=new URL('index.html',location.href);url.searchParams.set('embedded','agent');url.searchParams.set('context',location.pathname.endsWith('product.html')?'Product assortment':'Product discovery');frame.src=url.href;}panel.hidden=false;agentButton.setAttribute('aria-expanded','true');close.focus();});
-  close.addEventListener('click',closeAgent);panel.addEventListener('keydown',e=>{if(e.key==='Escape')closeAgent();});
-}
+const unifiedStyles=document.createElement('link');unifiedStyles.rel='stylesheet';unifiedStyles.href='footer-agent.css?v=13';document.head.append(unifiedStyles);
+const dockConversation=document.createElement('section');dockConversation.className='dock-conversation';dockConversation.hidden=true;dockConversation.setAttribute('aria-label','Footer agent conversation');
+const dockConversationHeader=document.createElement('div');dockConversationHeader.className='dock-conversation-header';dockConversationHeader.innerHTML='<strong>Your buying agent</strong><small>Simulated assistance / No real transactions</small>';
+const collapseAgent=document.createElement('button');collapseAgent.type='button';collapseAgent.textContent='Minimize';collapseAgent.className='secondary';dockConversationHeader.append(collapseAgent);
+const dockHistory=document.createElement('div');dockHistory.className='dock-history';dockHistory.setAttribute('role','log');dockHistory.setAttribute('aria-label','Buying agent messages');dockHistory.setAttribute('aria-live','polite');dockConversation.append(dockConversationHeader,dockHistory);commerceDock.prepend(dockConversation);
+collapseAgent.addEventListener('click',()=>{dockConversation.hidden=true;commerceDock.classList.remove('agent-expanded');document.querySelector('#product-search').focus();});
 if(new URLSearchParams(location.search).get('embedded')==='agent'){
   document.body.classList.add('embedded-agent');
   const embeddedStyles=document.createElement('link');embeddedStyles.rel='stylesheet';embeddedStyles.href='agent-panel.css?v=12';document.head.append(embeddedStyles);
@@ -33,9 +27,21 @@ if(new URLSearchParams(location.search).get('embedded')==='agent'){
 const dialog=document.createElement('dialog');dialog.className='shop-dialog';dialog.setAttribute('aria-labelledby','panel-title');dialog.innerHTML='<button class="secondary dialog-close">Close</button><h2 id="panel-title"></h2><div id="panel-content"></div>';document.body.append(dialog);
 dialog.querySelector('.dialog-close').addEventListener('click',()=>dialog.close());
 function openPanel(title,content){dialog.querySelector('#panel-title').textContent=title;dialog.querySelector('#panel-content').replaceChildren(content);dialog.showModal();}
-document.querySelector('#catalog-search').addEventListener('submit',e=>{e.preventDefault();location.href=`category.html?q=${encodeURIComponent(document.querySelector('#product-search').value.trim())}`;});
+document.querySelector('#catalog-search').addEventListener('submit',e=>{
+  e.preventDefault();const input=document.querySelector('#product-search'),query=input.value.trim();if(!query)return;
+  const result=interpretSearch(query);searchPreview.hidden=true;input.setAttribute('aria-expanded','false');
+  const turn=document.createElement('article');const user=document.createElement('p');user.className='dock-user-message';user.textContent=query;turn.append(user);
+  const reply=document.createElement('p');reply.className='dock-agent-message';reply.textContent=result.reason;turn.append(reply);
+  const picks=document.createElement('div');picks.className='search-picks';result.products.slice(0,3).forEach(p=>{const a=document.createElement('a');a.href=`product.html?id=${p.id}`;a.innerHTML=`<div class="search-mini ${p.color}" aria-hidden="true">${p.brand}</div><strong>${p.name}</strong><small>${p.signal}</small>`;picks.append(a);});turn.append(picks);
+  const all=document.createElement('a');all.className='search-view-all';all.href=`category.html?q=${encodeURIComponent(query)}`;all.textContent=result.products.length?`Explore ${result.products.length} recommended products →`:'Try another need, such as festival, heatwave or Coke';turn.append(all);
+  const journeys=document.createElement('div');journeys.className='dock-journey-links';journeys.innerHTML='<a href="index.html?journey=0">Plan opening stock</a><a href="index.html?journey=1">Review buying approvals</a><a href="index.html?journey=2">Plan recurring orders</a>';turn.append(journeys);
+  dockHistory.append(turn);dockConversation.hidden=false;commerceDock.classList.add('agent-expanded');input.value='';dockHistory.scrollTop=dockHistory.scrollHeight;
+});
 const searchInput=document.querySelector('#product-search');
-searchInput.placeholder='Tell me how I can help...';
+searchInput.placeholder='Ask my agent anything...';
+document.querySelector('#catalog-search').removeAttribute('role');
+document.querySelector('#catalog-search button').setAttribute('aria-label','Send to my agent');
+document.querySelector('#catalog-search button').innerHTML='<span aria-hidden="true">&rarr;</span>';
 searchInput.setAttribute('aria-label','Tell me how I can help with your assortment');
 searchInput.setAttribute('aria-controls','search-preview');
 searchInput.setAttribute('aria-expanded','false');
@@ -54,7 +60,7 @@ function previewSearch(){
   if(!result.products.length){const empty=document.createElement('p');empty.textContent='No sample matches yet. Try Coke, water, festival or heatwave.';searchPreview.append(empty);}
   const all=document.createElement('a');all.className='search-view-all';all.href=`category.html?q=${encodeURIComponent(searchInput.value.trim())}`;all.textContent=`View ${result.products.length} recommendations →`;searchPreview.append(all);
   const disclaimer=document.createElement('small');disclaimer.textContent='Demo intent matching / No live AI or local event data';searchPreview.append(disclaimer);
-  searchPreview.hidden=false;searchInput.setAttribute('aria-expanded','true');
+  searchPreview.hidden=dockConversation.hidden===false&&!searchInput.value.trim();searchInput.setAttribute('aria-expanded',String(!searchPreview.hidden));
 }
 searchInput.addEventListener('focus',previewSearch);searchInput.addEventListener('input',previewSearch);
 searchInput.addEventListener('keydown',e=>{if(e.key==='Escape'){searchPreview.hidden=true;searchInput.setAttribute('aria-expanded','false');}if(e.key==='ArrowDown'){const first=searchPreview.querySelector('button,a');if(first){e.preventDefault();first.focus();}}});
