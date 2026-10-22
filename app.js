@@ -38,16 +38,18 @@ function handle(action){
   messages.querySelectorAll('[data-action]').forEach(b=>{const a=b.dataset.action;b.disabled=(stage==='done'||(stage==='proposal'&&(a==='begin'||(a==='negotiate'&&negotiated)))||(stage==='schedule'&&!['activate','cancel'].includes(a))||(stage==='active'&&a!=='pause')||(stage==='paused'&&a!=='resume'));});
   return true;
 }
-document.querySelector('#journeys').innerHTML=journeys.map((j,i)=>`<button class="journey" data-journey="${i}"><span class="number">0${i+1}</span><span><strong>${j.title}</strong><small>${j.sub}</small></span></button>`).join('');
-document.querySelector('#journeys').addEventListener('click',e=>{const b=e.target.closest('[data-journey]');if(b)start(Number(b.dataset.journey));});
+function chooseJourney(){
+  stage='choose';messages.replaceChildren();
+  message('Your buyer agent',"Welcome back, Jordan. What is your next move for Midtown Market? Choose a journey and I'll coordinate with Coca-Cola's agents, right here in our conversation.",'<div class="conversation-journeys">'+journeys.map((j,i)=>`<button class="conversation-journey" data-journey="${i}"><span class="eyebrow">0${i+1} / ${['LAUNCH','DELEGATE','AUTOMATE'][i]}</span><strong>${j.title}</strong><small>${j.sub}</small><span class="journey-cta">Let\'s get started &rarr;</span></button>`).join('')+'</div><p class="journey-disclaimer">Unofficial concept / All accounts, agent exchanges and transactions are simulated. No real orders are placed.</p>');
+}
+messages.addEventListener('click',e=>{const b=e.target.closest('[data-journey]');if(b){const index=Number(b.dataset.journey);start(index);handle('begin');document.querySelector('#prompt').focus({preventScroll:true});}});
 messages.addEventListener('click',e=>{const b=e.target.closest('[data-action]');if(b&&!b.disabled){handle(b.dataset.action);document.querySelector('#prompt').focus({preventScroll:true});}});
-document.querySelector('#reset').addEventListener('click',()=>start(current));
-document.querySelector('#storyboard').innerHTML='<p class="eyebrow">STORYBOARD / THREE STEEL THREADS</p><h2>From first order to trusted autonomy.</h2>'+journeys.map((j,i)=>`<h3>0${i+1} / ${j.title}</h3><ol>${j.steps.map(s=>`<li>${s}</li>`).join('')}</ol>`).join('')+'<p class="muted">All actions stay in the conversation. Agent exchanges are expandable. Humans explicitly authorize purchases and automation. Each journey resets when switched; this prototype does not persist data.</p>';
-document.querySelector('#story-toggle').addEventListener('click',()=>{const s=document.querySelector('#storyboard');s.hidden=!s.hidden;document.querySelector('#story-toggle').textContent=s.hidden?'View storyboard':'Hide storyboard';document.querySelector('#story-toggle').setAttribute('aria-expanded',String(!s.hidden));});
-document.querySelector('#story-toggle').setAttribute('aria-expanded','false');document.querySelector('#story-toggle').setAttribute('aria-controls','storyboard');
+document.querySelector('#reset').textContent='Choose another journey';
+document.querySelector('#reset').addEventListener('click',chooseJourney);
+document.querySelector('#composer').addEventListener('submit',e=>{if(stage!=='choose')return;e.preventDefault();e.stopImmediatePropagation();const input=document.querySelector('#prompt'),text=input.value.trim();if(!text)return;input.value='';message('You',text);message('Your buyer agent','Choose one of the three journey tiles above to explore this scripted experience. You can also use the natural-language search in the bottom dock to discover products.');},true);
 document.querySelector('#composer').addEventListener('submit',e=>{e.preventDefault();const input=document.querySelector('#prompt'),text=input.value.trim();if(!text)return;input.value='';if(stage==='start'){message(current===1?'Alex / Store manager':'You',text);message('Your buyer agent','This scripted demo uses the sample Midtown account, ZIP 30308 and fixed amounts. Your message is shown, but does not change the simulated business data.');proposal();return;}const action=/negotiate|discount/i.test(text)?'negotiate':/reject/i.test(text)?'reject':/pause/i.test(text)?'pause':/resume/i.test(text)?'resume':null;if(action&&handle(action))return;message('You',text);message('Your buyer agent','This is a scripted concept, not a live AI service. Use the action buttons above to negotiate, approve a purchase or configure a schedule. Typed messages never authorize a purchase.');});
 const requestedJourney=Number(new URLSearchParams(location.search).get('journey'));
-start(Number.isInteger(requestedJourney)&&requestedJourney>=0&&requestedJourney<journeys.length?requestedJourney:0);
+if(new URLSearchParams(location.search).has('journey')&&Number.isInteger(requestedJourney)&&requestedJourney>=0&&requestedJourney<journeys.length)start(requestedJourney);else chooseJourney();
 const recommendations=document.createElement('section');
 recommendations.className='home-recommendations';
 recommendations.setAttribute('aria-labelledby','recommendations-title');
