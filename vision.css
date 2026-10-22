@@ -1,0 +1,35 @@
+/* A brand-led visual layer: warm editorial surfaces and a high-contrast buying dock. */
+:root{--dxp-g-brand:#b50927;--dxp-g-brand-1:#87071e;--dxp-g-neutral:#f1ece5;--dxp-g-root-contrast:#251b1c;--muted:#6b5d5b;--line:#ded4cb;--vision-ink:#26171d;--vision-cream:#fff9ee}
+body{background:var(--dxp-g-neutral)}
+.has-commerce-dock #storefront-header{background:var(--vision-cream);border-bottom-color:var(--line)}
+.has-commerce-dock .shop-header{min-height:90px;padding-top:20px;padding-bottom:20px}
+.brand{font-size:40px}.brand span{letter-spacing:3.5px;font-size:8px}
+.header-workspace{font-weight:normal;text-transform:uppercase;letter-spacing:1.5px;font-size:10px}.header-workspace small{text-transform:none;letter-spacing:.3px}
+.shop-tools button{border:1px solid var(--line);border-radius:50px;padding:10px 15px;background:var(--dxp-g-root)}
+.primary{background:var(--dxp-g-brand);border-color:var(--dxp-g-brand);border-radius:8px;padding:12px 18px;box-shadow:0 4px 10px #b5092712}
+.secondary{border-color:var(--line);border-radius:8px}
+.commerce-dock,.conversation-page .commerce-dock{background:var(--vision-ink);color:var(--vision-cream);border-color:#ffffff20;border-radius:24px;box-shadow:0 14px 50px #26171d33;padding-top:16px}
+.dock-label strong{font-size:20px}.dock-label small{color:#c9b7bb}.commerce-dock .online{background:#a8d7b0}
+.commerce-dock .shop-nav{border-top-color:#ffffff20}.commerce-dock .shop-nav a{color:#eee0dd;font-weight:normal;letter-spacing:.4px}.commerce-dock .shop-nav a[aria-current="page"]{color:white;border-bottom-color:#ff7186}.commerce-dock .shop-nav a:hover{color:#ffb5bf}
+.commerce-dock #catalog-search{background:var(--vision-cream);border-color:transparent;border-radius:12px}.commerce-dock #product-search{font-size:14px;padding:14px}.commerce-dock .search-preview{color:var(--dxp-g-root-contrast);border-radius:18px}
+.conversation-page .intro{padding:12px 0;margin-bottom:18px}.conversation-page .intro .eyebrow{color:var(--dxp-g-brand);letter-spacing:3px;font-size:9px}.conversation-page .intro h1{font:46px/1 Georgia;letter-spacing:-2px;margin:8px 0}.conversation-page .intro h1 span{font-style:italic}
+.conversation-page .conversation{border-radius:24px;border-color:#c8b7ac;box-shadow:0 12px 36px #42251d0a}
+.conversation-page .conversation::before{background:linear-gradient(100deg,#fff9eef5,#fff9eedb),url("conversation-backdrop.svg?v=8") center/cover}
+.conversation-header{padding:18px 28px;border-bottom-color:#dacec3}.conversation-header strong{font-size:14px}.sender{color:var(--dxp-g-brand);letter-spacing:1.5px}
+.conversation-journey{position:relative;overflow:hidden;border:1px solid #cfc0b4;background:var(--vision-cream);padding:24px;min-height:170px;transition:transform .18s,border-color .18s}
+.conversation-journey::after{content:"";position:absolute;right:-35px;bottom:-45px;width:120px;height:120px;border:1px solid #b509271c;border-radius:50%;pointer-events:none}
+.conversation-journey:nth-child(2){background:#eadfce}.conversation-journey:nth-child(3){background:#e1e8dd}
+.conversation-journey:hover{transform:translateY(-3px);border-color:var(--dxp-g-brand);background:var(--vision-cream)}
+.conversation-journey strong{font-size:27px;letter-spacing:-.6px}.conversation-journey .eyebrow{color:var(--dxp-g-brand)}
+.conversation-page #composer{background:#fff9eed9}.conversation-page #prompt{background:var(--dxp-g-root);border-color:#d4c3b6;border-radius:10px}
+.conversation-page .home-recommendations{margin-top:20px}.recommendation-heading h2{font-size:20px;letter-spacing:-.4px}.home-product{border-radius:14px;box-shadow:0 3px 9px #42251d04}.home-product-art{height:100px;width:88px;min-width:88px}.home-product strong{font-size:12px}.home-product-copy>span{font-weight:bold}
+.catalog-hero{padding:32px;border-radius:24px;background:var(--dxp-g-brand);color:white;position:relative;overflow:hidden}.catalog-hero::after{content:"";position:absolute;right:-100px;top:-140px;width:450px;height:450px;border:70px solid #ffffff0c;border-radius:50%;pointer-events:none}.catalog-hero h1{font-size:58px;letter-spacing:-2px}.catalog-hero .eyebrow,.catalog-hero p:not(.eyebrow),.catalog-hero small{color:#fff0ec}.location-signal{border-color:#ffffff50;position:relative;z-index:1}
+.agent-strip{background:#e0e8da;border-radius:16px;border-left:4px solid var(--green)}.agent-strip strong{font:23px Georgia}
+.catalog-card{border-radius:18px;box-shadow:0 6px 18px #42251d05}.catalog-art{background:radial-gradient(ellipse at 20% 10%,#fff9ee,#e7d9cc);height:230px}.catalog-card h2{font:23px Georgia;letter-spacing:-.4px}.insight-pill{border-radius:30px;padding:6px 10px}
+.pdp-hero h1{font-size:58px;letter-spacing:-2px}.pdp-hero>.catalog-art{border-radius:24px}.assortment-heading h2,.related h2{font-size:36px;letter-spacing:-1px}.assortment-bar{border-radius:16px;background:var(--vision-ink);color:var(--vision-cream)}.assortment-bar small{color:#d4bfc5}
+.story-intro h1{font-size:60px;letter-spacing:-2px}.story-thread{border-radius:20px;border-left:4px solid var(--dxp-g-brand)}.story-number{font-size:60px}
+@media(max-width:1000px){.conversation-page .intro h1{font-size:36px}.conversation-journey strong{font-size:23px}.home-product-art{width:58px;min-width:58px}.shop-tools button{padding:10px}}
+@media(max-width:700px){.has-commerce-dock .shop-header{min-height:72px;padding:12px 18px}.brand{font-size:29px}.shop-tools button{padding:8px}.conversation-page .intro{display:none}.conversation-journey{min-height:0;padding:15px}.conversation-journey strong{font-size:22px}.conversation-page .conversation{border-radius:18px}.conversation-page .conversation-header{padding:12px 16px}.conversation-header strong{font-size:12px}.conversation-header .text-button{max-width:120px;font-size:10px}.conversation-page .home-recommendations{margin-top:12px}.recommendation-heading h2{font-size:15px}.home-product-art{width:100%;min-width:0;height:38px}.home-product strong{font-size:9px}.commerce-dock,.conversation-page .commerce-dock{border-radius:18px;padding:10px 12px 2px}.commerce-dock #product-search{font-size:12px;padding:12px}.catalog-hero{padding:22px}.catalog-hero h1,.pdp-hero h1{font-size:40px}.agent-strip strong{font-size:21px}.catalog-art{height:190px}.story-intro h1{font-size:40px}.story-number{font-size:40px}.assortment-heading h2{font-size:27px}}
+@media(max-height:750px){.conversation-page .intro{display:none}.conversation-journey{min-height:0}.conversation-page .home-product-art{height:60px}}
+@media(prefers-reduced-motion:reduce){.conversation-journey{transition:none}.conversation-journey:hover{transform:none}}
+@media(min-width:701px){.conversation-page .intro h1{font-size:38px}.conversation-page .intro{padding:4px 0;margin-bottom:10px}.conversation-page .conversation-header{padding-top:12px;padding-bottom:12px}.conversation-page #composer{padding-top:12px;padding-bottom:12px}.conversation-page #messages{padding-top:18px;padding-bottom:18px}.conversation-page .shell{margin-bottom:140px}}
