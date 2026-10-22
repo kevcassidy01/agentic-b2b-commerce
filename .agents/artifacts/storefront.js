@@ -8,5 +8,18 @@ function openPanel(title,content){dialog.querySelector('#panel-title').textConte
 document.querySelector('#catalog-search').addEventListener('submit',e=>{e.preventDefault();location.href=`category.html?q=${encodeURIComponent(document.querySelector('#product-search').value.trim())}`;});
 function updateCartCount(){document.querySelector('#cart-count').textContent=`${Object.values(readDemoCart()).reduce((n,q)=>n+q,0)} cases / draft`;}
 window.addEventListener('cart-updated',updateCartCount);updateCartCount();
-function cartContent(){const content=document.createElement('div'),cart=readDemoCart();let total=0;for(const [sku,qty] of Object.entries(cart)){const {p,v}=findSku(sku);total+=qty*v.price;const row=document.createElement('p');row.textContent=`${p.name} / ${v.size} / ${qty} cases / ${commerceMoney(qty*v.price)} `;const remove=document.createElement('button');remove.className='text-button';remove.textContent='Remove';remove.setAttribute('aria-label',`Remove ${p.name} ${v.size}`);remove.addEventListener('click',()=>{const latest=readDemoCart();delete latest[sku];localStorage.setItem('commerce-demo-cart',JSON.stringify(latest));updateCartCount();dialog.querySelector('#panel-content').replaceChildren(cartContent());});row.append(remove);content.append(row);}const summary=document.createElement('p');summary.textContent=total?`Demo subtotal: ${commerceMoney(total)} before tax. Draft saved in this browser. No purchase has been placed.`:'Your demo cart is empty. Add cases with Quick order or build a multi-format assortment.';content.append(summary);const link=document.createElement('a');link.className='secondary story-link';link.href='index.html?journey=1';link.textContent='Explore purchasing approval with my agent';content.append(link);return content;}
+function cartContent(){
+  const content=document.createElement('div'),cart=readDemoCart();let total=0;
+  for(const [sku,qty] of Object.entries(cart)){
+    const {p,v}=findSku(sku);total+=qty*v.price;
+    const row=document.createElement('p');row.textContent=`${p.name} / ${v.size} / ${qty} cases / ${commerceMoney(qty*v.price)} `;
+    const remove=document.createElement('button');remove.className='text-button';remove.textContent='Remove';remove.setAttribute('aria-label',`Remove ${p.name} ${v.size}`);
+    remove.addEventListener('click',()=>{
+      try{const latest=readDemoCart();delete latest[sku];localStorage.setItem('commerce-demo-cart',JSON.stringify(latest));updateCartCount();dialog.querySelector('#panel-content').replaceChildren(cartContent());dialog.querySelector('.dialog-close').focus();}
+      catch{const error=document.createElement('p');error.setAttribute('role','alert');error.textContent='Browser storage is unavailable. The cart could not be updated.';content.append(error);}
+    });row.append(remove);content.append(row);
+  }
+  const summary=document.createElement('p');summary.textContent=total?`Demo subtotal: ${commerceMoney(total)} before tax. Draft saved in this browser. No purchase has been placed.`:'Your demo cart is empty. Add cases with Quick order or build a multi-format assortment.';content.append(summary);
+  const link=document.createElement('a');link.className='secondary story-link';link.href='index.html?journey=1';link.textContent='Explore purchasing approval with my agent';content.append(link);return content;
+}
 document.querySelectorAll('[data-panel]').forEach(b=>b.addEventListener('click',()=>{if(b.dataset.panel==='cart'){openPanel('My demo cart',cartContent());return;}const p=document.createElement('p');p.textContent='Jordan Carter / Owner, Corner & Co. Active location: Midtown Market, Atlanta 30308. This fictional account is already signed in.';openPanel('My Account',p);}));
