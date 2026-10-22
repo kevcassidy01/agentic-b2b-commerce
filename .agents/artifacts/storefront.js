@@ -13,6 +13,7 @@ document.body.classList.add('has-commerce-dock');
 const headerStatus=document.createElement('a');headerStatus.className='header-workspace';headerStatus.href='index.html';headerStatus.innerHTML='<span class="online" aria-hidden="true"></span>Connected commerce <small>Midtown Market / Atlanta</small>';
 document.querySelector('.shop-header').insertBefore(headerStatus,document.querySelector('.shop-tools'));
 const dockStyles=document.createElement('link');dockStyles.rel='stylesheet';dockStyles.href='commerce-dock.css?v=9';document.head.append(dockStyles);
+const visionStyles=document.createElement('link');visionStyles.rel='stylesheet';visionStyles.href='vision.css?v=11';document.head.append(visionStyles);
 const dialog=document.createElement('dialog');dialog.className='shop-dialog';dialog.setAttribute('aria-labelledby','panel-title');dialog.innerHTML='<button class="secondary dialog-close">Close</button><h2 id="panel-title"></h2><div id="panel-content"></div>';document.body.append(dialog);
 dialog.querySelector('.dialog-close').addEventListener('click',()=>dialog.close());
 function openPanel(title,content){dialog.querySelector('#panel-title').textContent=title;dialog.querySelector('#panel-content').replaceChildren(content);dialog.showModal();}
