@@ -1,16 +1,20 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000">
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900">
   <defs>
-    <linearGradient id="wall" x2="1" y2="1"><stop stop-color="#f6e4d7"/><stop offset=".55" stop-color="#bf283d"/><stop offset="1" stop-color="#640e25"/></linearGradient>
-    <linearGradient id="glass"><stop stop-color="#ffffff" stop-opacity=".65"/><stop offset="1" stop-color="#aee5ed" stop-opacity=".08"/></linearGradient>
-    <linearGradient id="bottle"><stop stop-color="#e4213a"/><stop offset=".5" stop-color="#a00a23"/><stop offset="1" stop-color="#ed3048"/></linearGradient>
-    <pattern id="tiles" width="110" height="110" patternUnits="userSpaceOnUse"><path d="M110 0H0V110" fill="none" stroke="#fff" stroke-opacity=".09" stroke-width="2"/></pattern>
-    <filter id="blur"><feGaussianBlur stdDeviation="18"/></filter>
-    <g id="drink"><rect x="20" y="0" width="40" height="22" rx="6" fill="#333"/><path d="M22 22h36v28c0 18 22 25 22 52v190q0 20-20 20H20q-20 0-20-20V102c0-27 22-34 22-52Z" fill="url(#bottle)"/><rect y="128" width="80" height="80" fill="#fdf4e8"/><text x="40" y="160" text-anchor="middle" fill="#b0122b" font-family="Georgia,serif" font-size="13" font-style="italic">Coca-Cola</text><path d="M14 82v38m0 100v62" stroke="#fff" stroke-opacity=".3" stroke-width="5" stroke-linecap="round"/></g>
+    <linearGradient id="scene" x2="1" y2="1"><stop stop-color="#f8eee3"/><stop offset=".6" stop-color="#e1c9b5"/><stop offset="1" stop-color="#c67268"/></linearGradient>
+    <linearGradient id="red"><stop stop-color="#ed3e4b"/><stop offset=".5" stop-color="#ad102c"/><stop offset="1" stop-color="#df2840"/></linearGradient>
+    <linearGradient id="silver"><stop stop-color="#e7e6e1"/><stop offset=".5" stop-color="#b3b5b2"/><stop offset="1" stop-color="#efeeeb"/></linearGradient>
+    <radialGradient id="sun"><stop stop-color="#fffef0" stop-opacity=".9"/><stop offset="1" stop-color="#fffef0" stop-opacity="0"/></radialGradient>
+    <filter id="soft"><feGaussianBlur stdDeviation="25"/></filter>
+    <g id="can"><rect width="150" height="280" rx="28" fill="url(#red)"/><ellipse cx="75" cy="14" rx="68" ry="12" fill="url(#silver)"/><ellipse cx="75" cy="269" rx="64" ry="9" fill="url(#silver)"/><path d="M18 35v205" stroke="#fff" stroke-width="6" opacity=".2"/><text x="75" y="137" text-anchor="middle" fill="#fff" font-family="Georgia,serif" font-weight="bold" font-style="italic" font-size="26">Coca-Cola</text><path d="M24 165q58 22 112-7" stroke="#fff" stroke-width="5" fill="none"/><text x="75" y="208" text-anchor="middle" font-family="Arial" font-size="9" letter-spacing="2" fill="#fff">ORIGINAL TASTE</text></g>
   </defs>
-  <rect width="1600" height="1000" fill="url(#wall)"/><rect width="1600" height="1000" fill="url(#tiles)"/>
-  <circle cx="180" cy="100" r="240" fill="#fff5cf" opacity=".3" filter="url(#blur)"/>
-  <path d="M0 690Q460 250 1030 550T1800 300" fill="none" stroke="#fff" stroke-opacity=".2" stroke-width="85"/>
-  <g transform="translate(1020 140)"><rect x="-35" y="-35" width="560" height="730" rx="32" fill="#321c24"/><rect width="490" height="650" rx="10" fill="url(#glass)"/><g transform="translate(25 35) scale(.9)"><use href="#drink"/><use href="#drink" x="100"/><use href="#drink" x="200"/><use href="#drink" x="300"/><use href="#drink" x="400"/></g><g transform="translate(25 365) scale(.9)"><use href="#drink"/><use href="#drink" x="100"/><use href="#drink" x="200"/><use href="#drink" x="300"/><use href="#drink" x="400"/></g><path d="M0 345h490" stroke="#d8dad9" stroke-width="10"/><path d="M20 20h450" stroke="#fff" stroke-opacity=".8" stroke-width="7"/><path d="m35 0 160 650" stroke="#fff" stroke-opacity=".08" stroke-width="45"/></g>
-  <g transform="translate(120 440) rotate(-12) scale(1.6)"><use href="#drink"/></g><g transform="translate(300 610) rotate(10) scale(1.2)"><use href="#drink"/></g>
-  <ellipse cx="720" cy="950" rx="900" ry="100" fill="#301922" opacity=".3"/>
+  <rect width="1600" height="900" fill="url(#scene)"/>
+  <circle cx="220" cy="180" r="600" fill="url(#sun)"/>
+  <g opacity=".16" filter="url(#soft)"><path d="M1000-100h70v1100h-70zm250 0h60v1100h-60z" fill="#694733"/><path d="M800 100h900v55H800zm0 300h900v55H800z" fill="#694733"/></g>
+  <path d="M0 670q500-130 1000-60t600-20v310H0Z" fill="#eee3d4"/>
+  <path d="M0 690q500-130 1000-60t600-20" fill="none" stroke="#fff8eb" stroke-width="8"/>
+  <ellipse cx="1130" cy="713" rx="330" ry="45" fill="#734d3e" opacity=".12" filter="url(#soft)"/>
+  <g transform="translate(1000 330) rotate(-12 75 280) scale(1.35)"><use href="#can"/></g>
+  <g transform="translate(1250 405) rotate(10 75 280)"><use href="#can"/></g>
+  <path d="M-200 600q600-650 1300-350" stroke="#fff" stroke-width="90" fill="none" opacity=".14"/>
+  <g fill="#fff" opacity=".45"><circle cx="982" cy="414" r="3"/><circle cx="1100" cy="548" r="4"/><circle cx="1030" cy="587" r="3"/><circle cx="1340" cy="533" r="3"/></g>
 </svg>

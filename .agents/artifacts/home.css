@@ -1,5 +1,5 @@
 .conversation-page main{position:relative;isolation:isolate}
-.conversation-page main::before{content:"";position:absolute;inset:12px 24px 110px;background:linear-gradient(110deg,#ffffff30,#ffffff08),url("conversation-backdrop.svg") center/cover;border-radius:20px;z-index:-1}
+.conversation-page main::before{content:none}
 .conversation-page .intro{background:#f6f4f1ed;border-radius:12px;padding:10px 18px}
 .conversation-page .intro h1{font-size:28px}
 .conversation-page .shop-header{padding-top:16px;padding-bottom:16px}
@@ -7,19 +7,31 @@
 .conversation-page .intro h1 br{display:none}
 .conversation-page .intro p:not(.eyebrow){display:none}
 .conversation-page main{padding-bottom:72px}
-.conversation-page .conversation{background:rgba(255,255,255,.92);backdrop-filter:blur(10px);border-color:#ffffffaa;box-shadow:0 8px 24px #40102012}
+.conversation-page .conversation{position:relative;isolation:isolate;background:transparent;border-color:#e5d8ce;box-shadow:0 8px 24px #4010200a}
+.conversation-page .conversation::before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(100deg,rgba(255,255,255,.95),rgba(255,255,255,.87)),url("conversation-backdrop.svg?v=8") center/cover}
 .conversation-page .conversation-header,.conversation-page #composer{background:#ffffff55}
-.conversation-page .home-recommendations{flex-shrink:0;margin-top:12px;background:var(--dxp-g-neutral);padding:8px 0 0}
+.conversation-page .home-recommendations{flex-shrink:0;margin-top:18px;background:var(--dxp-g-neutral);padding:0;position:relative}
 .recommendation-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:8px}
 .recommendation-heading h2{font:16px Georgia;margin:0}
 .recommendation-heading>span{font-size:9px;color:var(--muted)}
 .recommendation-items{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
-.home-product{display:flex;align-items:center;gap:10px;padding:10px;background:var(--dxp-g-root);border:1px solid var(--line);border-radius:8px;color:var(--dxp-g-root-contrast);text-decoration:none;min-width:0}
+.home-product{display:flex;align-items:center;gap:12px;padding:0;background:var(--dxp-g-root);border:1px solid var(--line);border-radius:12px;color:var(--dxp-g-root-contrast);text-decoration:none;min-width:0;overflow:hidden}
 .home-product .mini-can{flex-shrink:0}
 .home-product strong{font-size:11px;display:block}
 .home-product small{font-size:9px;color:var(--muted);display:block}
 .home-product>span{margin-left:auto;color:var(--dxp-g-brand)}
 .home-product:hover{border-color:var(--dxp-g-brand)}
+.home-product-art{--drink:var(--dxp-g-brand);width:78px;min-width:78px;height:96px;display:grid;place-items:center;background:radial-gradient(ellipse at 20% 20%,#fff,#f2ded6);overflow:hidden}
+.home-product-art.black{--drink:#242424;background:radial-gradient(ellipse at 20% 20%,#fff,#e1e2e5)}
+.home-product-art.green{--drink:#226744;background:radial-gradient(ellipse at 20% 20%,#fff,#dce9dc)}
+.home-drink{background:var(--drink);width:34px;height:68px;border-radius:9px 9px 6px 6px;border-top:5px solid #bbb;border-bottom:3px solid #bbb;transform:rotate(-9deg);box-shadow:5px 7px 10px #0002;display:flex;flex-direction:column;justify-content:center;text-align:center;color:white}
+.home-drink>span{font:bold italic 8px Georgia}.home-drink>small{font:4px Arial;color:white;margin-top:9px}
+.home-product-copy{padding:10px 8px 10px 0;min-width:0}
+.home-product-copy>span{display:block;color:var(--dxp-g-brand);font-size:9px;margin-top:8px}
+@media(max-width:1000px){.home-product-art{width:54px;min-width:54px;height:82px}.home-product{gap:8px}.home-product-copy>span{font-size:8px}}
+@media(max-width:700px){.conversation-page main::before{content:none}.home-product{flex-direction:column;gap:0}.home-product-art{width:100%;height:48px}.home-drink{height:42px;width:23px;border-top-width:3px}.home-drink>span{font-size:6px}.home-drink>small{display:none}.home-product-copy{padding:7px 5px}.home-product-copy>span{font-size:8px;margin-top:4px}.conversation-page .home-recommendations{margin-top:12px}}
+@media(max-height:650px){.home-product-art{height:40px}.home-product-copy>span{display:none}.home-drink{height:34px;width:22px}.conversation-page .home-recommendations{margin-top:8px}}
+@media(max-width:700px){.conversation-page .shop-header{padding-top:8px;padding-bottom:8px}.conversation-page .intro{display:none}.conversation-page main{padding-bottom:58px}.home-product-art{height:38px}.home-product-copy>span{display:none}.home-product-copy{padding:5px}.conversation-page #composer small{display:none}}
 @media(max-width:1000px){.recommendation-heading>span{display:none}.home-product small{display:none}.home-product{padding:8px;gap:6px}.home-product>span{display:none}}
 @media(max-width:700px){.conversation-page main::before{inset:6px 10px 95px}.recommendation-heading h2{font-size:13px}.home-product strong{font-size:9px}.home-product .mini-can{width:18px;height:30px;font-size:6px}.recommendation-items{gap:5px}}
 @media(max-height:650px){.home-product{padding:5px}.home-product .mini-can{height:24px}.recommendation-heading{margin-bottom:4px}.conversation-page #composer{padding-top:8px;padding-bottom:8px}}
