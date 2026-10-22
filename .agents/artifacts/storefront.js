@@ -14,6 +14,22 @@ const headerStatus=document.createElement('a');headerStatus.className='header-wo
 document.querySelector('.shop-header').insertBefore(headerStatus,document.querySelector('.shop-tools'));
 const dockStyles=document.createElement('link');dockStyles.rel='stylesheet';dockStyles.href='commerce-dock.css?v=9';document.head.append(dockStyles);
 const visionStyles=document.createElement('link');visionStyles.rel='stylesheet';visionStyles.href='vision.css?v=11';document.head.append(visionStyles);
+if(!document.body.classList.contains('conversation-page')){
+  const agentStyles=document.createElement('link');agentStyles.rel='stylesheet';agentStyles.href='agent-panel.css?v=12';document.head.append(agentStyles);
+  const agentButton=document.createElement('button');agentButton.className='dock-agent-button';agentButton.textContent='Ask my agent';agentButton.setAttribute('aria-expanded','false');agentButton.setAttribute('aria-controls','site-agent-panel');
+  document.querySelector('#catalog-search').before(agentButton);
+  const panel=document.createElement('section');panel.id='site-agent-panel';panel.className='site-agent-panel';panel.hidden=true;panel.setAttribute('aria-label','Your commerce agent conversation');
+  const heading=document.createElement('div');heading.className='agent-panel-heading';heading.innerHTML='<div><strong>Your commerce agent</strong><small>Stay on this page. Keep the conversation moving.</small></div>';
+  const close=document.createElement('button');close.className='secondary';close.textContent='Close conversation';heading.append(close);
+  const frame=document.createElement('iframe');frame.title='Your commerce agent conversation';panel.append(heading,frame);document.body.append(panel);
+  function closeAgent(){panel.hidden=true;agentButton.setAttribute('aria-expanded','false');agentButton.focus();}
+  agentButton.addEventListener('click',()=>{if(!panel.hidden){closeAgent();return;}if(!frame.getAttribute('src')){const url=new URL('index.html',location.href);url.searchParams.set('embedded','agent');url.searchParams.set('context',location.pathname.endsWith('product.html')?'Product assortment':'Product discovery');frame.src=url.href;}panel.hidden=false;agentButton.setAttribute('aria-expanded','true');close.focus();});
+  close.addEventListener('click',closeAgent);panel.addEventListener('keydown',e=>{if(e.key==='Escape')closeAgent();});
+}
+if(new URLSearchParams(location.search).get('embedded')==='agent'){
+  document.body.classList.add('embedded-agent');
+  const embeddedStyles=document.createElement('link');embeddedStyles.rel='stylesheet';embeddedStyles.href='agent-panel.css?v=12';document.head.append(embeddedStyles);
+}
 const dialog=document.createElement('dialog');dialog.className='shop-dialog';dialog.setAttribute('aria-labelledby','panel-title');dialog.innerHTML='<button class="secondary dialog-close">Close</button><h2 id="panel-title"></h2><div id="panel-content"></div>';document.body.append(dialog);
 dialog.querySelector('.dialog-close').addEventListener('click',()=>dialog.close());
 function openPanel(title,content){dialog.querySelector('#panel-title').textContent=title;dialog.querySelector('#panel-content').replaceChildren(content);dialog.showModal();}

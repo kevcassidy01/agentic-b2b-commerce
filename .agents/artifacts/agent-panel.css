@@ -1,0 +1,15 @@
+.commerce-dock{grid-template-columns:200px auto minmax(0,1fr)}
+.dock-agent-button{background:#fff9ee;color:var(--dxp-g-brand);border:1px solid #ffffff40;border-radius:12px;padding:10px 16px;font-size:12px;font-weight:bold;align-self:center;white-space:nowrap}
+.site-agent-panel{position:fixed;right:28px;bottom:170px;width:min(680px,calc(100% - 48px));height:min(640px,calc(100dvh - 200px));z-index:35;background:var(--vision-cream,var(--dxp-g-root));border:1px solid var(--line);border-radius:20px;box-shadow:0 18px 70px #26171d40;display:flex;flex-direction:column;overflow:hidden}
+.agent-panel-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 18px;border-bottom:1px solid var(--line)}
+.agent-panel-heading strong{font:20px Georgia}.agent-panel-heading small{display:block;font-size:10px;color:var(--muted)}.agent-panel-heading button{font-size:10px}
+.site-agent-panel iframe{border:0;width:100%;flex:1;min-height:0;background:var(--dxp-g-neutral)}
+.embedded-agent #storefront-header,.embedded-agent .commerce-dock,.embedded-agent .intro,.embedded-agent .home-recommendations,.embedded-agent main>footer{display:none!important}
+.embedded-agent .shell{margin:0!important;max-width:none!important}
+.embedded-agent main{padding:12px!important;height:100%}
+.embedded-agent .conversation{height:100%;border-radius:12px}
+.embedded-agent .conversation-journeys{grid-template-columns:1fr;gap:8px}
+.embedded-agent .conversation-journey{padding:14px;min-height:0;gap:5px}
+.embedded-agent .conversation-journey strong{font-size:20px}
+@media(max-width:1000px){.commerce-dock{grid-template-columns:auto minmax(0,1fr)}.dock-agent-button{grid-column:1;grid-row:1}.commerce-dock #catalog-search{grid-column:2;grid-row:1}}
+@media(max-width:700px){.site-agent-panel{right:8px;bottom:140px;width:calc(100% - 16px);height:calc(100dvh - 160px);border-radius:16px}.agent-panel-heading{padding:10px 12px}.agent-panel-heading strong{font-size:17px}.agent-panel-heading small{display:none}.dock-agent-button{padding:8px 10px;font-size:10px}.commerce-dock #product-search{padding:10px;font-size:11px}.embedded-agent #messages{padding:12px}}
