@@ -20,4 +20,11 @@ All products, prices, local sales insights, accounts, approvals, and agent excha
 
 ## Publishing
 
-GitHub Actions publishes `.agents/artifacts/` to GitHub Pages on pushes to `main`. Enable GitHub Pages with GitHub Actions as the source.
+GitHub Pages serves the root of the `gh-pages` branch. Publish the latest artifacts after committing changes on `main`:
+
+```sh
+git subtree split --prefix=.agents/artifacts -b site-publish-next
+git push origin site-publish-next:gh-pages
+```
+
+Use a fresh temporary branch name for each publish. Source files remain on `main`; `gh-pages` contains only the static website.
