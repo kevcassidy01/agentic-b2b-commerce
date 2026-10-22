@@ -11,7 +11,7 @@ function message(sender,text,html=''){
   const label=document.createElement('div');label.className='sender';label.textContent=sender;el.append(label);
   if(text){const p=document.createElement('p');p.textContent=text;el.append(p);}
   if(html){const content=document.createElement('div');content.innerHTML=html;el.append(content);}
-  messages.append(el);return el;
+  messages.append(el);messages.scrollTop=messages.scrollHeight;return el;
 }
 function activity(items){return `<details><summary>Agent-to-agent activity / ${items.length} exchanges</summary>${items.map(([who,what])=>`<div class="exchange"><strong>${who}</strong>${what}</div>`).join('')}</details>`;}
 function buttons(items){return `<div class="actions">${items.map(([id,label],i)=>`<button class="${i===0?'primary':'secondary'}" data-action="${id}">${label}</button>`).join('')}</div>`;}
