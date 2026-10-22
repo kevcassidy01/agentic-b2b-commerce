@@ -14,7 +14,7 @@ const headerStatus=document.createElement('a');headerStatus.className='header-wo
 document.querySelector('.shop-header').insertBefore(headerStatus,document.querySelector('.shop-tools'));
 const dockStyles=document.createElement('link');dockStyles.rel='stylesheet';dockStyles.href='commerce-dock.css?v=9';document.head.append(dockStyles);
 const visionStyles=document.createElement('link');visionStyles.rel='stylesheet';visionStyles.href='vision.css?v=11';document.head.append(visionStyles);
-const unifiedStyles=document.createElement('link');unifiedStyles.rel='stylesheet';unifiedStyles.href='footer-agent.css?v=13';document.head.append(unifiedStyles);
+const unifiedStyles=document.createElement('link');unifiedStyles.rel='stylesheet';unifiedStyles.href='footer-agent.css?v=15';document.head.append(unifiedStyles);
 const dockConversation=document.createElement('section');dockConversation.className='dock-conversation';dockConversation.hidden=true;dockConversation.setAttribute('aria-label','Footer agent conversation');
 const dockConversationHeader=document.createElement('div');dockConversationHeader.className='dock-conversation-header';dockConversationHeader.innerHTML='<strong>Your buying agent</strong><small>Simulated assistance / No real transactions</small>';
 const collapseAgent=document.createElement('button');collapseAgent.type='button';collapseAgent.textContent='Minimize';collapseAgent.className='secondary';dockConversationHeader.append(collapseAgent);
