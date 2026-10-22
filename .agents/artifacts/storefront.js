@@ -1,4 +1,5 @@
 const storyPage=location.pathname.endsWith('storyline.html');
+const previewScript=document.createElement('script');previewScript.src='device-preview.js?v=7';document.head.append(previewScript);
 const searchStyles=document.createElement('link');searchStyles.rel='stylesheet';searchStyles.href='search.css?v=6';document.head.append(searchStyles);
 const browsePage=/category|product/.test(location.pathname);
 const icon=name=>`<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">${{search:'<circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/>',account:'<circle cx="12" cy="8" r="4"/><path d="M4 22v-3a8 8 0 0 1 16 0v3"/>',cart:'<path d="M2 3h3l3 13h11l3-9H6"/><circle cx="9" cy="21" r="1"/><circle cx="19" cy="21" r="1"/>'}[name]}</svg>`;
