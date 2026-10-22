@@ -4,4 +4,12 @@
 .dock-history article{padding:12px 0;border-top:1px solid #ffffff20}.dock-user-message{background:#ffffff15;padding:10px 14px;border-radius:8px;margin:0 0 10px;font-size:13px}.dock-agent-message{font-size:13px;margin:10px 0 14px}
 .dock-history .search-picks{grid-template-columns:repeat(3,minmax(0,1fr));max-width:700px}.dock-history .search-picks a{background:#fff9ee}.dock-history .search-view-all{color:#ffb5bf}.dock-journey-links{display:flex;flex-wrap:wrap;gap:12px;margin-top:12px}.dock-journey-links a{color:#fff0e7;font-size:11px}
 .commerce-dock.agent-expanded{max-height:75dvh}.commerce-dock #catalog-search button{font-size:24px}.commerce-dock #catalog-search{align-items:center}
+.has-commerce-dock .commerce-dock{display:grid;grid-template-columns:230px minmax(0,1fr);gap:8px 24px;flex-shrink:0;font:12px/1.55 Arial,Helvetica,sans-serif;letter-spacing:normal;text-align:left;padding:16px 22px 4px;background:var(--vision-ink);color:var(--vision-cream);border-radius:24px}
+.has-commerce-dock .commerce-dock .shop-nav{grid-column:1/-1;grid-row:auto;margin:0}
+.has-commerce-dock .commerce-dock #catalog-search{grid-column:2;grid-row:auto;order:initial}
+.has-commerce-dock .commerce-dock .dock-conversation{grid-column:1/-1}
+.has-commerce-dock .commerce-dock .dock-label{display:block}
+.has-commerce-dock .commerce-dock .search-preview{color:var(--dxp-g-root-contrast)}
+@media(max-width:1000px){.has-commerce-dock .commerce-dock{grid-template-columns:minmax(0,1fr)}.has-commerce-dock .commerce-dock .dock-label{display:none}.has-commerce-dock .commerce-dock #catalog-search{grid-column:1}}
+@media(max-width:700px){.has-commerce-dock .commerce-dock{padding:10px 12px 2px;border-radius:18px;gap:8px}.has-commerce-dock .commerce-dock .shop-nav{padding-right:82px}}
 @media(max-width:700px){.dock-conversation-header small{display:none}.dock-conversation-header strong{font-size:17px}.dock-conversation-header button{font-size:10px;padding:6px 10px}.dock-history{max-height:42dvh}.dock-agent-message,.dock-user-message{font-size:12px}}
